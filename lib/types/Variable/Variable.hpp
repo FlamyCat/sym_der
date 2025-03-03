@@ -6,7 +6,7 @@
 
 namespace symder
 {
-    class Variable : public Expression
+    class Variable final : public Expression
     {
         std::string _name;
 
@@ -21,6 +21,9 @@ namespace symder
 
         std::shared_ptr<Expression> differentiate(const std::string& varName) override;
         std::string toString() override;
+
+        std::shared_ptr<Expression>
+        evaluate(const std::unordered_map<std::string, std::complex<long double>>& vars) override;
 
         ~Variable() override = default;
     };

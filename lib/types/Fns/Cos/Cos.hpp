@@ -6,7 +6,7 @@
 
 namespace symder
 {
-    class Cos : public Expression
+    class Cos final : public Expression
     {
         std::shared_ptr<Expression> _arg;
 
@@ -21,6 +21,9 @@ namespace symder
 
         std::shared_ptr<Expression> differentiate(const std::string& varName) override;
         std::string toString() override;
+
+        std::shared_ptr<Expression>
+        evaluate(const std::unordered_map<std::string, std::complex<long double>>& vars) override;
 
         ~Cos() override = default;
     };

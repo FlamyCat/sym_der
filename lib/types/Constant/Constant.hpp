@@ -16,7 +16,7 @@ namespace symder
         };
 
     template <Numeric T>
-    class Constant : public Expression
+    class Constant final : public Expression
     {
         T _value;
 
@@ -33,6 +33,10 @@ namespace symder
         std::shared_ptr<Expression> differentiate(const std::string& varName) override;
         std::string toString() override;
 
+        std::shared_ptr<Expression>
+        evaluate(const std::unordered_map<std::string, std::complex<long double>>& vars) override;
+
+        [[nodiscard]] T get_value() const { return _value; }
         ~Constant() override = default;
     };
 
@@ -43,10 +47,23 @@ namespace symder
         return std::make_shared<Constant>(0);
     }
 
+    template <>
+    inline std::string Constant<std::complex<long double>>::toString()
+    {
+        return std::format("{} + {}i", std::real(_value), std::imag(_value));
+    }
+
     template <Numeric T>
     std::string Constant<T>::toString()
     {
         return std::to_string(_value);
+    }
+
+    template <Numeric T>
+    std::shared_ptr<Expression> Constant<T>::evaluate(
+        const std::unordered_map<std::string, std::complex<long double>>& vars)
+    {
+        return std::make_shared<Constant>(*this);
     }
 #pragma endregion Implementation
 } // symder

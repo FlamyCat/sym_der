@@ -16,4 +16,13 @@ namespace symder {
     {
         return _name;
     }
+
+    std::shared_ptr<Expression> Variable::evaluate(
+        const std::unordered_map<std::string, std::complex<long double>>& vars)
+    {
+        if (vars.contains(_name))
+            return std::make_shared<Constant<std::complex<long double>>>(vars.at(_name));
+
+        return std::make_shared<Variable>(*this);
+    }
 } // symder

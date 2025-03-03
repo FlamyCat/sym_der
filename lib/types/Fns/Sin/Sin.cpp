@@ -1,5 +1,6 @@
 #include "Sin.hpp"
 
+#include "../../../utils.hpp"
 #include "../Cos/Cos.hpp"
 
 namespace symder
@@ -12,5 +13,16 @@ namespace symder
     std::string Sin::toString()
     {
         return std::format("sin({})", _arg->toString());
+    }
+
+    std::shared_ptr<Expression> Sin::evaluate(const std::unordered_map<std::string, std::complex<long double>>& vars)
+    {
+        auto evaluatedArg = _arg->evaluate(vars);
+        const auto maybeArgVal = constValueOf(evaluatedArg);
+
+        if (maybeArgVal != nullptr)
+            return complexConstant(std::sin(*maybeArgVal));
+
+        return std::make_shared<Sin>(evaluatedArg);
     }
 } // symder

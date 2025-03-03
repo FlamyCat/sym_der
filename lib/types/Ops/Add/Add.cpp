@@ -1,7 +1,7 @@
 #include "Add.hpp"
-#include "../Sub/Sub.hpp"
-#include "../Mul/Mul.hpp"
-#include "../Div/Div.hpp"
+
+#include "../../../utils.hpp"
+#include "../../Constant/Constant.hpp"
 
 namespace symder
 {
@@ -13,5 +13,19 @@ namespace symder
     std::string Add::toString()
     {
         return std::format("({} + {})", _lhs->toString(), _rhs->toString());
+    }
+
+    std::shared_ptr<Expression> Add::evaluate(const std::unordered_map<std::string, std::complex<long double>>& vars)
+    {
+        const auto lhsEvaluated = _lhs->evaluate(vars);
+        const auto rhsEvaluated = _rhs->evaluate(vars);
+
+        const auto maybeLhsConst = constValueOf(lhsEvaluated);
+        const auto maybeRhsConst = constValueOf(rhsEvaluated);
+
+        if (maybeLhsConst != nullptr && maybeRhsConst != nullptr)
+            return std::make_shared<ComplexConstant>(*maybeLhsConst + *maybeRhsConst);
+
+        return lhsEvaluated + rhsEvaluated;
     }
 } // symder

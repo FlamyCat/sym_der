@@ -8,7 +8,7 @@ namespace symder
 {
     class Expression;
 
-    class Mul : public Expression
+    class Mul final : public Expression
     {
         std::shared_ptr<Expression> _lhs;
         std::shared_ptr<Expression> _rhs;
@@ -27,6 +27,9 @@ namespace symder
 
         std::shared_ptr<Expression> differentiate(const std::string& varName) override;
         std::string toString() override;
+
+        std::shared_ptr<Expression>
+        evaluate(const std::unordered_map<std::string, std::complex<long double>>& vars) override;
 
         ~Mul() override = default;
     };

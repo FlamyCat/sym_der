@@ -6,7 +6,7 @@
 
 namespace symder {
 
-class Ln : public Expression {
+class Ln final : public Expression {
     std::shared_ptr<Expression> _arg;
 
     public:
@@ -21,7 +21,10 @@ class Ln : public Expression {
     std::shared_ptr<Expression> differentiate(const std::string& varName) override;
     std::string toString() override;
 
-    virtual ~Ln() = default;
+    std::shared_ptr<Expression>
+    evaluate(const std::unordered_map<std::string, std::complex<long double>>& vars) override;
+
+    ~Ln() override = default;
 };
 
 } // symder

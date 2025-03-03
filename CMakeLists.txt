@@ -28,4 +28,5 @@ add_executable(sym_der main.cpp
         lib/types/Fns/Sin/Sin.hpp
         lib/types/Fns/Cos/Cos.cpp
         lib/types/Fns/Cos/Cos.hpp
+        lib/utils.hpp
 )
