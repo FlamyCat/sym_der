@@ -29,4 +29,11 @@ add_executable(sym_der main.cpp
         lib/types/Fns/Cos/Cos.cpp
         lib/types/Fns/Cos/Cos.hpp
         lib/utils.hpp
+        lib/parser/Parser.cpp
+        lib/parser/Parser.hpp
+        lib/parser/TokenType.hpp
+        lib/parser/OpType.hpp
+        lib/parser/Lexer.cpp
+        lib/parser/Lexer.hpp
+        lib/parser/Token.hpp
 )
