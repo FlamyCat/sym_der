@@ -9,11 +9,8 @@
 namespace symder
 {
     template <typename T>
-    concept Numeric = std::integral<T> || std::floating_point<T> ||
-        requires(T x)
-        {
-            requires std::is_same_v<T, std::complex<typename T::value_type>>;
-        };
+    concept Numeric = std::integral<T> || std::floating_point<T> || std::is_same_v<
+        T, std::complex<typename T::value_type>>;
 
     template <Numeric T>
     class Constant final : public Expression
@@ -49,6 +46,12 @@ namespace symder
 
     template <>
     inline std::string Constant<std::complex<long double>>::toString()
+    {
+        return std::format("{} + {}i", std::real(_value), std::imag(_value));
+    }
+
+    template <>
+    inline std::string Constant<std::complex<int>>::toString()
     {
         return std::format("{} + {}i", std::real(_value), std::imag(_value));
     }

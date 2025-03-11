@@ -41,21 +41,25 @@ namespace symder
             if (body == "sin")
             {
                 _ops.push_back(FnSin);
+                _buf.clear();
                 return;
             }
             if (body == "cos")
             {
                 _ops.push_back(FnCos);
+                _buf.clear();
                 return;
             }
             if (body == "ln")
             {
                 _ops.push_back(FnLn);
+                _buf.clear();
                 return;
             }
             if (body == "exp")
             {
                 _ops.push_back(FnExp);
+                _buf.clear();
                 return;
             }
             throw std::logic_error(std::format("Undefined fn: {}", std::move(body)));
@@ -157,6 +161,7 @@ namespace symder
 
     std::deque<Token> Lexer::parse()
     {
+        normalizeInput();
         for (auto it = _input.begin(); it != _input.end(); ++it)
         {
             auto statusMsg = std::format("Reading {} at {}", *it, it - _input.begin());
@@ -169,22 +174,50 @@ namespace symder
 
             if (*it == ')')
             {
+                pushBuf();
                 while (_ops.back() != Lparen && !_ops.empty())
                 {
                     _output.push_back({Op, opToString(_ops.back())});
                     _ops.pop_back();
                 }
 
+                _ops.pop_back();
+
+                continue;
+            }
+
+            if (*it == '(')
+            {
+                pushBuf();
+                _ops.push_back(Lparen);
                 continue;
             }
 
             if (isOp(*it))
             {
+                pushBuf();
                 auto curOp = charToOp(*it);
-                if (priorityOf(curOp) < priorityOf(_ops.back()))
-                    _ops.push_back(curOp);
-                else
-                    _output.push_back({Op, {*it}});
+                if (!_ops.empty() && priorityOf(curOp) >= priorityOf(_ops.back()))
+                {
+                    switch (curOp)
+                    {
+                    case OpAdd:
+                    case OpSub:
+                    case OpMul:
+                    case OpDiv:
+                    case OpPow:
+                        _output.push_back({Op, {opToString(_ops.back())}});
+                        break;
+                    case FnSin:
+                    case FnCos:
+                    case FnExp:
+                    case FnLn:
+                        _output.push_back({Fn, {opToString(_ops.back())}});
+                        break;
+                    case Lparen:
+                        throw std::logic_error("Unreachable");
+                    }
+                }
 
                 _ops.push_back(curOp);
                 continue;
@@ -217,6 +250,33 @@ namespace symder
                 break;
             }
         }
+
+        pushBuf();
+
+        while (!_ops.empty())
+        {
+            const auto op = _ops.back();
+            _ops.pop_back();
+            switch (op)
+            {
+            case OpAdd:
+            case OpSub:
+            case OpMul:
+            case OpDiv:
+            case OpPow:
+                _output.push_back({Op, {opToString(op)}});
+                break;
+            case FnSin:
+            case FnCos:
+            case FnExp:
+            case FnLn:
+                _output.push_back({Fn, {opToString(op)}});
+                break;
+            case Lparen:
+                throw std::logic_error("Unreachable");
+            }
+        }
+
 
         return std::move(_output);
     }

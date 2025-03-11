@@ -2,9 +2,7 @@
 
 #include "../../../utils.hpp"
 #include "../../Constant/Constant.hpp"
-#include "../Add/Add.hpp"
 #include "../Mul/Mul.hpp"
-#include "../Div/Div.hpp"
 
 namespace symder
 {

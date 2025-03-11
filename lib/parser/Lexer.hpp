@@ -11,7 +11,7 @@ namespace symder
     class Lexer
     {
         // Constants
-        const std::unordered_set<char> _validOps{(*"+-*/^()")};
+        const std::string _validOps{"+-*/^"};
         const std::unordered_set<std::string> _validFns{"sin", "cos", "exp", "ln"};
         const std::string _stringЕxpr;
 

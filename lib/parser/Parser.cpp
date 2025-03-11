@@ -67,6 +67,22 @@ namespace symder
         {
             return OpPow;
         }
+        if (str == "sin")
+        {
+            return FnSin;
+        }
+        if (str == "cos")
+        {
+            return FnCos;
+        }
+        if (str == "exp")
+        {
+            return FnExp;
+        }
+        if (str == "ln")
+        {
+            return FnLn;
+        }
         throw std::logic_error("Unreachable");
     }
 
@@ -74,27 +90,27 @@ namespace symder
     {
         std::deque<std::shared_ptr<Expression>> expressions;
 
-        for (const auto lexingResult = _lexer.parse(); const Token& token : lexingResult)
+        for (const auto lexingResult = _lexer.parse(); const auto& [type, body] : lexingResult)
         {
-            if (token.type == Number)
+            if (type == Number)
             {
-                auto expr = std::make_shared<Constant<std::complex<long double>>>(parseNumber(token.body));
+                auto expr = std::make_shared<Constant<std::complex<long double>>>(parseNumber(body));
                 expressions.push_back(expr);
 
                 continue;
             }
 
-            if (token.type == Identifier)
+            if (type == Identifier)
             {
-                auto expr = std::make_shared<Variable>(token.body);
+                auto expr = std::make_shared<Variable>(body);
                 expressions.push_back(expr);
 
                 continue;
             }
 
-            if (token.type == Fn)
+            if (type == Fn)
             {
-                auto fnKind = fnFromStr(token.body);
+                const auto fnKind = fnFromStr(body);
                 std::shared_ptr<Expression> fn;
                 auto arg = expressions.back();
                 expressions.pop_back();
@@ -122,9 +138,9 @@ namespace symder
                 continue;
             }
 
-            if (token.type == Op)
+            if (type == Op)
             {
-                auto opKind = opFromStr(token.body);
+                const auto opKind = opFromStr(body);
 
                 auto rhs = expressions.back();
                 expressions.pop_back();

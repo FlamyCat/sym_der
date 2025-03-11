@@ -3,7 +3,6 @@
 #include "../../../utils.hpp"
 #include "../Add/Add.hpp"
 #include "../Sub/Sub.hpp"
-#include "../Div/Div.hpp"
 
 namespace symder {
     std::shared_ptr<Expression> Mul::differentiate(const std::string& varName)

@@ -1,9 +1,7 @@
 #include "Exp.hpp"
 
 #include "../../../utils.hpp"
-#include "../../Ops/Add/Add.hpp"
 #include "../../Ops/Mul/Mul.hpp"
-#include "../../Ops/Sub/Sub.hpp"
 
 namespace symder {
     std::shared_ptr<Expression> Exp::differentiate(const std::string& varName)

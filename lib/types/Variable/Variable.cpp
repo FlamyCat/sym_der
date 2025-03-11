@@ -1,10 +1,7 @@
 #include "Variable.hpp"
 
 #include "../Constant/Constant.hpp"
-#include "../Ops/Add/Add.hpp"
 #include "../Ops/Div/Div.hpp"
-#include "../Ops/Mul/Mul.hpp"
-#include "../Ops/Sub/Sub.hpp"
 
 namespace symder {
     std::shared_ptr<Expression> Variable::differentiate(const std::string& varName)
