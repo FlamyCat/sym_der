@@ -21,7 +21,7 @@ namespace symder
         const auto lhsEvaluated = _lhs->evaluate(vars);
         const auto rhsEvaluated = _rhs->evaluate(vars);
 
-        const auto maybeLhsConst = constValueOf(rhsEvaluated);
+        const auto maybeLhsConst = constValueOf(lhsEvaluated);
         const auto maybeRhsConst = constValueOf(rhsEvaluated);
 
         if (maybeLhsConst != nullptr && maybeRhsConst != nullptr)
