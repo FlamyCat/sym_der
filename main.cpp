@@ -55,7 +55,9 @@ VarDecl parseVariableDeclaration(std::string declaration)
 
     const auto expr = declaration.substr(delimiterPosition + 1, declaration.size() - delimiterPosition - 1);
     auto parser = symder::Parser{expr};
-    const auto value = constValueOf(parser.parse());
+
+    std::unordered_map<std::string, std::complex<long double>> emptyVarMap;
+    const auto value = constValueOf(parser.parse()->evaluate(emptyVarMap));
 
     VarDecl decl = {variable, *value};
 
