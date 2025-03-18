@@ -23,7 +23,7 @@ namespace symder
 
     bool Lexer::isOp(const char c) const
     {
-        return _validOps.contains(c);
+        return _validOps.find(c) != std::string::npos;
     }
 
     void Lexer::pushBuf()
@@ -190,6 +190,7 @@ namespace symder
             {
                 pushBuf();
                 _ops.push_back(Lparen);
+                _currentToken = Undefined;
                 continue;
             }
 
