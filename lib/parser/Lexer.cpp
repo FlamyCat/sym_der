@@ -218,6 +218,7 @@ namespace symder
                     case Lparen:
                         throw std::logic_error("Unreachable");
                     }
+                    _ops.pop_back();
                 }
 
                 _ops.push_back(curOp);
