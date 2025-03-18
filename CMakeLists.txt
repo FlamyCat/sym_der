@@ -85,3 +85,8 @@ add_executable(symder_test lib/test/test_main.cpp
         lib/types/Fns/Ln/test/test.hpp
         lib/parser/test/test.hpp
 )
+
+add_custom_target(test
+        DEPENDS symder_test
+        COMMAND ./symder_test
+)
