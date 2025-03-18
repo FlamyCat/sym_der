@@ -2,6 +2,7 @@
 #define CONSTANT_HPP
 #include <concepts>
 #include <complex>
+#include <format>
 
 #include "../Expression.hpp"
 #include "../Ops/Add/Add.hpp"
