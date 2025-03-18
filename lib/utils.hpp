@@ -65,6 +65,12 @@ namespace symder
     {
         return std::make_shared<ComplexConstant>(x);
     }
+
+    inline bool numIsZero(std::complex<long double> num)
+    {
+        const auto eps = 1e-9;
+        return std::abs(num.real()) < eps && std::abs(num.imag()) < eps;
+    }
 }
 
 #endif //UTILS_HPP

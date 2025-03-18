@@ -24,7 +24,10 @@ namespace symder
         if (maybeArgVal != nullptr)
         {
             if (maybeArgVal->real() < 0)
-                throw std::invalid_argument("Ln::evaluate() - maybeArgVal < 0");
+                throw std::invalid_argument("Ln::evaluate() - arg < 0");
+
+            if (numIsZero(*maybeArgVal))
+                throw std::invalid_argument("Ln::evaluate() - arg = 0");
 
             return complexConstant(std::log(*maybeArgVal));
         }
