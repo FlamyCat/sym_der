@@ -84,7 +84,7 @@ void handleEvaluation(const int argc, char** argv)
 
 int main(const int argc, char** argv)
 {
-    if (constexpr auto expectedNumberOfArgs = 3; argc < 4)
+    if (constexpr auto expectedNumberOfArgs = 2; argc < expectedNumberOfArgs + 1)
     {
         std::cout << std::format("There must be at least {} args (the command, the expression and the variable(s))",
                                  expectedNumberOfArgs);
