@@ -15,6 +15,9 @@ namespace symder
 {
     std::complex<long double> Parser::parseNumber(const std::string& str)
     {
+        if (str == "i")
+            return {0, 1};
+
         const bool isImaginary = str.ends_with('i');
         const long double number = std::stold(str);
 
