@@ -9,11 +9,9 @@ namespace symder
 {
     std::shared_ptr<Expression> Pow::differentiate(const std::string& varName)
     {
-        const auto baseDiff = _base->differentiate(varName);
-        const auto expDiff = _exp->differentiate(varName);
+        auto t = Exp(_exp * std::make_shared<Ln>(_base));
 
-        return std::make_shared<Exp>(_exp * std::make_shared<Ln>(_base)) *
-            (_exp * baseDiff / expDiff + expDiff * std::make_shared<Ln>(_base));
+        return t.differentiate(varName);
     }
 
     std::string Pow::toString()
