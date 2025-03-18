@@ -31,6 +31,10 @@ namespace symder
 
         if (maybeLhsConst != nullptr && maybeRhsConst != nullptr)
         {
+            const auto eps = 1e-9;
+            if (std::abs(maybeRhsConst->real()) < eps && std::abs(maybeRhsConst->imag()) < eps)
+                throw std::invalid_argument("Division by zero");
+
             return std::make_shared<ComplexConstant>(*maybeLhsConst / *maybeRhsConst);
         }
 
