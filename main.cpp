@@ -2,6 +2,8 @@
 #include <cstring>
 #include <iomanip>
 #include <iostream>
+#include <sstream>
+#include <stdexcept>
 #include <string>
 #include <unordered_map>
 
@@ -47,8 +49,9 @@ VarDecl parseVariableDeclaration(std::string declaration)
     if (delimiterPosition == std::string::npos)
     {
         auto quotedDecl = std::quoted(declaration);
-        std::cout << "Declaration " << quotedDecl << " does not contain the '=' sign" << std::endl;
-        throw VarDeclError{NoEqualsSign};
+        std::stringstream errorMessage;
+        errorMessage << "Declaration " << quotedDecl << " does not contain the '=' sign";
+        throw std::invalid_argument(errorMessage.str());
     }
 
     auto variable = declaration.substr(0, delimiterPosition);
@@ -94,16 +97,21 @@ int main(const int argc, char** argv)
         return 1;
     }
 
-    if (strcmp(argv[1], "--diff") == 0)
-    {
-        handleDifferentiation(argv);
-        return 0;
-    }
-
-    if (strcmp(argv[1], "--eval") == 0)
-    {
-        handleEvaluation(argc, argv);
-        return 0;
+    try {
+        if (strcmp(argv[1], "--diff") == 0)
+        {
+            handleDifferentiation(argv);
+            return 0;
+        }
+    
+        if (strcmp(argv[1], "--eval") == 0)
+        {
+            handleEvaluation(argc, argv);
+            return 0;
+        }
+    } catch (const std::exception& e) {
+        std::cerr << "Error: " << e.what() << std::endl;
+        return 1;
     }
 
     std::cout << "Invalid command: " << std::quoted(argv[1]) << std::endl;
