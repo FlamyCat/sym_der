@@ -20,8 +20,6 @@ namespace symder::test
             throw AssertionError(std::format("Assertion \"lhs == rhs\" failed.\nLhs:\n\t{}\nRhs:\n\t{}", lhs, rhs));
     }
 
-    // The ReSharper thinks that the lambda may be declared const, though it's not true (it will lead to a compilation error)
-    // ReSharper disable once CppParameterMayBeConst
     inline void runTest(const std::string& group, const std::string& name, void testMethod())
     {
         const auto separator = "=========================\n";
