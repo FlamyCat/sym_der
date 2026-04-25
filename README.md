@@ -29,6 +29,8 @@ This produces two executables inside the `build` directory:
 
 ## Usage
 
+The following examples assume you're inside the `build` directory that was created during configuration (see part called `Building`).
+
 ### Differentiation
 
 ```bash
